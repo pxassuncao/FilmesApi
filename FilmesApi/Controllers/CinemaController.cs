@@ -4,6 +4,7 @@ using FilmesApi.Data.Dtos;
 using FilmesApi.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace FilmesApi.Controllers
 {
@@ -26,7 +27,7 @@ namespace FilmesApi.Controllers
             Cinema cinema = _mapper.Map<Cinema>(cinemaDto);
             _context.Cinemas.Add(cinema);
             _context.SaveChanges();
-            return CreatedAtAction(nameof(RecuperaCinemasPorId)), new {Id = cinema.Id }, 
+            return CreatedAtAction(nameof(RecuperaCinemasPorId), new { Id = cinema.Id }, 
             cinemaDto);
         }
 
@@ -35,5 +36,49 @@ namespace FilmesApi.Controllers
         {
             return _mapper.Map<List<ReadCinemaDto>>(_context.Cinemas.ToList());
         }
+
+        [HttpGet("{id}")]
+        public IActionResult RecuperaCinemasPorId(int id)
+        {
+            Cinema cinema = _context.Cinemas.FirstOrDefault(cinema => cinema.Id == id);
+
+
+            if (cinema != null)
+            {
+                ReadCinemaDto cinemaDto = _mapper.Map<ReadCinemaDto>(cinema);
+                return Ok(cinemaDto);
+            }
+            return NotFound();
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult AtualizaCinema(int id, [FromBody] UpdateCinemaDto cinemaDto)
+        {
+            Cinema cinema = _context.Cinemas.FirstOrDefault(cinema =>cinema.Id == id);
+            if(cinema == null) 
+            { 
+                return NotFound();
+            }
+            _mapper.Map(cinemaDto, cinema);
+            _context.SaveChanges();
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeletaCinema(int id)
+        {
+            Cinema cinema = _context.Cinemas.FirstOrDefault(cinema=>cinema.Id == id);
+            if(cinema == null)
+            {
+                return NotFound();
+            }
+            _context.Remove(cinema);
+            _context.SaveChanges();
+            return NoContent();
+        }
+
+
     }
+    
+
 }
