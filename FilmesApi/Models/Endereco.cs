@@ -9,5 +9,6 @@ namespace FilmesApi.Models
         public int Id { get; set; }
         public string Logradiuro { get; set; }
         public int Numero { get; set; }
+        public virtual Cinema Cinema { get; set; }
     }
 }
