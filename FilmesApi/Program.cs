@@ -13,7 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 //builder.Services.AddSqlServer<FilmeContext>(builder.Configuration["Database:SqlServer"]);
 var connectionString = builder.Configuration.GetConnectionString("ConnectionDefault");
 builder.Services.AddDbContext<FilmeContext>(optionsbuilder =>
-    optionsbuilder.UseSqlServer(connectionString));
+    optionsbuilder.UseLazyLoadingProxies().UseSqlServer(connectionString));
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddControllers().AddNewtonsoftJson();

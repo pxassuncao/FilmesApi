@@ -29,8 +29,7 @@ namespace FilmesApi.Controllers
             _context.SaveChanges();
             return CreatedAtAction(nameof(RecuperaEnderecosPorId), new
             {
-                Id =
-                endereco.Id
+                Id = endereco.Id
             }, endereco);
         }
 
@@ -54,11 +53,11 @@ namespace FilmesApi.Controllers
 
         }
 
-        [HttpPut("{id)")]
-        public IActionResult AtualizaEndereco(int id, [FromBody] UpdateEnderecoDto
+        [HttpPut("{id}")]
+        public IActionResult AtualizaEndereco(int id,[FromBody]UpdateEnderecoDto
             enderecoDto)
         {
-            Endereco endereco = _context.Enderecos.FirstOrDefault(endereco =>
+            Endereco endereco =_context.Enderecos.FirstOrDefault(endereco =>
             endereco.Id == id);
             if(endereco == null)
             {
