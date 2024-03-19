@@ -18,4 +18,5 @@ public class Filme
     [Range(30, 600, ErrorMessage ="a duração do filme tem não pode ser menor que" +
         "30 minutos ou maior que 600 minutos")]
     public int Duracao { get; set; }
+    public virtual ICollection<Sessao> Sessaos { get; set; }
 }
